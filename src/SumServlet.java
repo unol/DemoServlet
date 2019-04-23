@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +41,7 @@ public class SumServlet extends HttpServlet {
     	
     	for(int i: fees) {
     		f+=i;
-    	}
-    	    	
-    	System.out.println(round(f,2)/100);
+    	}    	   
 		return round(f,2)/100;    
     }
 	/**
@@ -56,11 +55,16 @@ public class SumServlet extends HttpServlet {
 		String cmd = reqParaStr[0];
 		String para = reqParaStr[1];
 		
-		if("fun".equals(cmd) && "sum".equals(para)) {		
-			getApplication().setAttribute("sum", sum() );
+		if("fun".equals(cmd) && "sum".equals(para)) {
+			
+			response.setContentType("text/html");
+			 PrintWriter out = response.getWriter();
+			 out.println( sum()+"Euro");					
 		}
 		else if("fun".equals(cmd) && "average".equals(para)){
-			getApplication().setAttribute("average", (sum()/vehicleCount) );
+			response.setContentType("text/html");
+			 PrintWriter out = response.getWriter();
+			 out.println( (sum()/vehicleCount)+"Euro");		
 		}		
 		else {
 			System.out.println("Invalid Command: "+ request.getQueryString());
@@ -106,8 +110,7 @@ public class SumServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		// TODO Auto-generated method stub		
 		String[] params = getBody(request).split(",");
 		if(params[0].equals("leave")) {
 			fees.add(Integer.valueOf(params[4]));
