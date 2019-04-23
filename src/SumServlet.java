@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class SumServlet
  */ 
-@WebServlet("/SumServlet")
+@WebServlet("/sumServlet")
 public class SumServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

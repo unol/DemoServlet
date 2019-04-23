@@ -9,12 +9,4 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <servlet>
-    <servlet-name>sumServ</servlet-name>
-    <servlet-class>SumServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>sumServ</servlet-name>
-    <url-pattern>/index.jsp</url-pattern>
-  </servlet-mapping>
 </web-app>
