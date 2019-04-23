@@ -10,11 +10,11 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
-    <servlet-name>sumServ</servlet-name>
+    <servlet-name>sumServlet</servlet-name>
     <servlet-class>SumServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>sumServ</servlet-name>
-    <url-pattern>/index.jsp</url-pattern>
+    <servlet-name>sumServlet</servlet-name>
+    <url-pattern>/.*</url-pattern>
   </servlet-mapping>
 </web-app>
