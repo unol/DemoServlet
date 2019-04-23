@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SumServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private List<Integer> fees = new ArrayList<Integer>();
+	private List<Integer> times = new ArrayList<Integer>();
 	private int vehicleCount = 0;
 	
     /**
@@ -44,6 +45,16 @@ public class SumServlet extends HttpServlet {
     	}    	   
 		return round(f,2)/100;    
     }
+    
+    public Float total_time() {
+    	float f=0;
+    	
+    	for(int i: fees) {
+    		f+=i;
+    	}    	   
+		return f;    
+    }
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -65,7 +76,12 @@ public class SumServlet extends HttpServlet {
 			response.setContentType("text/html");
 			 PrintWriter out = response.getWriter();
 			 out.println( (sum()/vehicleCount)+"Euro");		
-		}		
+		}	
+		else if("fun".equals(cmd) && "total_time".equals(para)){
+			response.setContentType("text/html");
+			PrintWriter out = response.getWriter();
+			out.println( (total_time()));		
+		}	
 		else {
 			System.out.println("Invalid Command: "+ request.getQueryString());
 		}
@@ -114,6 +130,7 @@ public class SumServlet extends HttpServlet {
 		String[] params = getBody(request).split(",");
 		if(params[0].equals("leave")) {
 			fees.add(Integer.valueOf(params[4]));
+			times.add(Integer.valueOf(params[3]));
 			vehicleCount++;
 		}
 	}
