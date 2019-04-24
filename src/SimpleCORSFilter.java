@@ -37,7 +37,7 @@ public class SimpleCORSFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) req;
 		System.out.println("CORSFilter HTTP Request: " + request.getMethod());
-		((HttpServletResponse) res).addHeader("Access-Control-Allow-Origin", "localhost");
+		((HttpServletResponse) res).addHeader("Access-Control-Allow-Origin", "*");
 		((HttpServletResponse) res).addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
 
 		HttpServletResponse resp = (HttpServletResponse) res;
