@@ -1,5 +1,4 @@
 
-
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -8,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -16,12 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 @WebFilter("/SimpleCORSFilter")
 public class SimpleCORSFilter implements Filter {
 
-    /**
-     * Default constructor. 
-     */
-    public SimpleCORSFilter() {
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * Default constructor.
+	 */
+	public SimpleCORSFilter() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see Filter#destroy()
@@ -33,14 +33,21 @@ public class SimpleCORSFilter implements Filter {
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
-	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		// place your code here
-		 HttpServletResponse response = (HttpServletResponse) res;
-		 
-		 if(response.getStatus() == 403) {
-			 //weiterverabeiten?
-		 }
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+			throws IOException, ServletException {
+		HttpServletRequest request = (HttpServletRequest) req;
+		System.out.println("CORSFilter HTTP Request: " + request.getMethod());
+		((HttpServletResponse) res).addHeader("Access-Control-Allow-Origin", "localhost");
+		((HttpServletResponse) res).addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+
+		HttpServletResponse resp = (HttpServletResponse) res;
+
+		// For HTTP OPTIONS verb/method reply with ACCEPTED status code -- per CORS
+		// handshake
+		if (request.getMethod().equals("OPTIONS")) {
+			resp.setStatus(HttpServletResponse.SC_ACCEPTED);
+			return;
+		}
 		// pass the request along the filter chain
 		chain.doFilter(req, res);
 	}
