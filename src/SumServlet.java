@@ -39,7 +39,7 @@ public class SumServlet extends HttpServlet {
 		for (int i : fees) {
 			f += i;
 		}
-		return f / 1000;
+		return f / 100;
 	}
 
 	private String formatTime(float time) {
@@ -64,7 +64,7 @@ public class SumServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		String para = request.getParameter("fun");
+		String para = request.getParameter("cmd");
 
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
