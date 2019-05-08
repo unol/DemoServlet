@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/sumServlet")
 public class SumServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Map<Integer,Integer> fees = new HashMap<Integer,Integer>();
+	private Map<Integer,Integer> fees = new HashMap<Integer,Integer>(); //id,fees
 	private int vehicleCount = 0;
 
 	/**
@@ -59,9 +59,16 @@ public class SumServlet extends HttpServlet {
 	}
 
 	private String createChart() {
-		//String cars = String.format("%s%d", "Car_", i);
-		String cars ="        \"Car_1\",\n";
-		String fees= "        23\n";
+		String cars = "";
+		String x = "";
+		
+		for (Entry<Integer, Integer> entry : fees.entrySet()) {						
+		    cars += "        \"Car_"+entry.getKey()+"\",\n";
+		    x += "        "+entry.getValue()+",\n";
+		}
+		
+		cars = cars.substring(0, cars.length()-2);				
+		x = x.substring(0, x.length()-2);
 		
 		String rtn = "{\n" +
 	            "  \"data\": [\n" +
@@ -70,7 +77,7 @@ public class SumServlet extends HttpServlet {
 	            			cars+
 	            "      ],\n" +
 	            "      \"y\": [\n" +
-	            			fees+
+	            				x+
 	            "      ],\n" +
 	            "      \"type\": \"bar\"\n" +
 	            "    }\n" +
