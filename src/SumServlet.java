@@ -5,7 +5,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/sumServlet")
 public class SumServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private List<Integer> fees = new ArrayList<Integer>();
+	private Map<Integer,Integer> fees = new HashMap<Integer,Integer>();
 	private int vehicleCount = 0;
 
 	/**
@@ -36,8 +39,8 @@ public class SumServlet extends HttpServlet {
 	public float sum() {
 		float f = 0;
 
-		for (int i : fees) {
-			f += i;
+		for (Entry<Integer, Integer> entry : fees.entrySet()) {
+		    f += entry.getValue();
 		}
 		return f / 100;
 	}
@@ -55,6 +58,27 @@ public class SumServlet extends HttpServlet {
 		return Float.toString(round(time, 1)) + ext;
 	}
 
+	private String createChart() {
+		//String cars = String.format("%s%d", "Car_", i);
+		String cars ="        \"Car_1\",\n";
+		String fees= "        23\n";
+		
+		String rtn = "{\n" +
+	            "  \"data\": [\n" +
+	            "    {\n" +
+	            "      \"x\": [\n" +
+	            			cars+
+	            "      ],\n" +
+	            "      \"y\": [\n" +
+	            			fees+
+	            "      ],\n" +
+	            "      \"type\": \"bar\"\n" +
+	            "    }\n" +
+	            "  ]\n" +
+	            "}";		
+		return rtn;
+	}
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -75,7 +99,11 @@ public class SumServlet extends HttpServlet {
 			out.println(round(sum() / vehicleCount, 2) + " Euro");
 		} else if ("total_time".equals(para)) {
 			out.println(formatTime(sum()));
-		} else {
+		} else if("chart".equals(para)) {
+            response.setContentType("text/plain");
+            out.println(createChart());
+          
+        } else {
 			System.out.println("Invalid Command: " + request.getQueryString());
 		}
 	}
@@ -111,7 +139,7 @@ public class SumServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String[] params = getBody(request).split(",");
 		if (params[0].equals("leave")) {
-			fees.add(Integer.valueOf(params[4]));
+			fees.put(Integer.valueOf(params[1]), Integer.valueOf(params[4]));
 			vehicleCount++;
 		}
 	}
